@@ -15,7 +15,7 @@ class SearchFile extends FormRequest
     {
         return [
             'query' => [
-                'sometimes',
+                'nullable',
                 'string'
             ]
         ];
