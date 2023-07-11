@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFile;
 use App\Http\Requests\DeleteFile;
+use App\Http\Requests\SearchFile;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
@@ -51,9 +52,17 @@ class FilesController extends Controller
         return response(FileResource::make($result), 201);
     }
 
-    public function index()
+    public function index(SearchFile $request)
     {
-        $files = File::query()->paginate(50);
+        $data = $request->validated();
+        $files = File::query();
+
+        if(isset($data['query'])) {
+            $files->where('title', 'ilike', '%'. $data['query'] .'%');
+        }
+
+        $files = $files->paginate(50);
+
         return response(FileResource::collection($files), 200);
     }
 
