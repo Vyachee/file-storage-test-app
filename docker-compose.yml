@@ -84,7 +84,7 @@ services:
             /usr/bin/mc mb myminio/files;
             /usr/bin/mc policy set public myminio/files;
             exit 0;
-            "f
+            "
 networks:
     sail:
         driver: bridge
