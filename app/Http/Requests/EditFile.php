@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateFile extends FormRequest
+class EditFile extends FormRequest
 {
     public function authorize(): bool
     {
@@ -19,7 +19,16 @@ class CreateFile extends FormRequest
                 'file',
                 'max:8000'
             ],
-            'title' => 'nullable'
+            'title' => 'nullable',
+            'id' => [
+                'required',
+                'exists:files,id'
+            ]
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge(['id' => $this->route('id')]);
     }
 }

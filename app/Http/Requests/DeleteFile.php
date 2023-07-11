@@ -14,7 +14,7 @@ class DeleteFile extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => [
+            'id' => [
                 'required',
                 'exists:files,id'
             ]
@@ -23,6 +23,6 @@ class DeleteFile extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(['file' => $this->route('file')]);
+        $this->merge(['id' => $this->route('id')]);
     }
 }

@@ -7,5 +7,10 @@ Route::get('/', function () {
     return 'test';
 });
 Route::prefix('v1')->group(function () {
-    Route::resource('files', FilesController::class);
+    Route::prefix('files')->controller(FilesController::class)->group(function() {
+       Route::get('/', 'index');
+       Route::post('/', 'store');
+       Route::post('/{id}', 'update');
+       Route::delete('/{id}', 'destroy');
+    });
 });
