@@ -24,5 +24,6 @@ class File extends Model
         'extension',
         'preview_path',
         'path',
+        'created_at'
     ];
 }
