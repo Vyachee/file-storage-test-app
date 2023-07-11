@@ -9,8 +9,7 @@
   laravelsail/php81-composer:latest \
   composer install --ignore-platform-reqs
   ```
-- Затем: ```docker-compose up -d```
-- И ```docker exec -it app php artisan migrate```
+- И затем: ```docker-compose up -d && docker exec -it app php artisan migrate```
 - Profit!
 
 
@@ -20,3 +19,6 @@
 Postman-коллекция (```StorageAPI.postman_collection.json```) в репозитории
 
 Для проверки пагинации можно запустить команду ```docker exec -it app php artisan db:seed --class=CloneFiles``` – она скопирует первую строку из БД 150 раз (НО НЕ СКОПИРУЕТ ОБЪЕКТЫ В ХРАНАЛИЩЕ)
+
+
+Используемый стек: ```Laravel 10```, ```Vue 3 (Composition API)```, ```PostgreSQL```, ```Minio (S3)```
