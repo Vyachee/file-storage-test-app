@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFile;
+use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -18,7 +19,7 @@ class FilesController extends Controller
         $uuid = Str::uuid();
         $filename = $uuid . '.' . $file->extension();
 
-        $path = Storage::putFileAs('/', $file, $filename);
+        $path = Storage::putFileAs('/', $file, $filename, 'public');
         $previewPath = null;
 
         if (explode('/', $file->getMimeType())[0] == 'image') {
@@ -29,7 +30,7 @@ class FilesController extends Controller
                     $constraint->aspectRatio();
                 });
 
-            Storage::disk('s3')->put('/' . $previewPath, $img->encode());
+            Storage::disk('s3')->put('/' . $previewPath, $img->encode(), 'public');
         }
 
         $fileSize = $file->getSize() / 1000000;
@@ -46,11 +47,12 @@ class FilesController extends Controller
             'preview_path' => $previewPath
         ]);
 
-        return response($result, 201);
+        return response(FileResource::make($result), 201);
     }
 
     public function index()
     {
-        return response([], 200);
+        $files = File::query()->paginate(50);
+        return response(FileResource::collection($files), 200);
     }
 }
