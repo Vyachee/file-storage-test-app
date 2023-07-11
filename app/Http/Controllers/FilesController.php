@@ -28,7 +28,7 @@ class FilesController extends Controller
 
         $files = $files->paginate(50);
 
-        return response(FileResource::collection($files), 200);
+        return response(FileResource::collection($files)->response()->getData(true), 200);
     }
 
     public function store(CreateFile $request)
