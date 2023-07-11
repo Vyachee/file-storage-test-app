@@ -87,6 +87,8 @@ services:
         image: minio/mc
         depends_on:
             - minio
+        networks:
+            - sail
         entrypoint: >
             /bin/sh -c "
             /usr/bin/mc alias set myminio http://minio:${FORWARD_MINIO_PORT:-9000} ${AWS_ACCESS_KEY_ID:-sail} ${AWS_SECRET_ACCESS_KEY:-password};
