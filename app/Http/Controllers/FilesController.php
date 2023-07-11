@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFile;
+use App\Http\Requests\DeleteFile;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
@@ -54,5 +55,21 @@ class FilesController extends Controller
     {
         $files = File::query()->paginate(50);
         return response(FileResource::collection($files), 200);
+    }
+
+    public function destroy(DeleteFile $request)
+    {
+        $file = File::query()->find($request['file']);
+        $paths = [];
+
+        if(isset($file['preview_path'])) $paths[] = $file['preview_path'];
+        if(isset($file['path'])) $paths[] = $file['path'];
+
+        Storage::delete($paths);
+        $file->delete();
+
+        return response([
+            'success' => true
+        ]);
     }
 }
