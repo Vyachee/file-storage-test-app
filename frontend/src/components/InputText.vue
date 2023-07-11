@@ -1,5 +1,5 @@
 <template>
-    <input type="text" v-model="text" @input="$emit('change', text)" :placeholder="placeholder">
+    <input type="text" v-model="text" @input="$emit('inputText', text)" :placeholder="placeholder">
 </template>
 
 <script setup lang="ts">

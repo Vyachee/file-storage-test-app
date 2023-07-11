@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import api from "@/api";
+import router from "@/router";
 
 // Нужно было это в модули всё разнести по-хорошему, но тут не так уж и много
 export default createStore<any>({
@@ -73,7 +74,35 @@ export default createStore<any>({
           } else {
               alert(message)
           }
-      }
+      },
+      async createFile(context, payload: {title: string; attachment: File}) {
+
+          const formData = new FormData();
+          formData.append('attachment', payload.attachment)
+          formData.append('title', payload.title)
+
+          try {
+              const {data: {
+                  id,
+                  message
+              }} = await api.post(
+                  `files`,
+                  formData, {
+                      headers: {
+                          'Content-Type': 'multipart/form-data'
+                      }
+                  }
+              );
+
+              if(message) {
+                  alert(message)
+              } else {
+                  await context.dispatch("fetchFiles")
+                  await router.push({path: '/'})
+              }
+          } catch (e) {}
+      },
+
   },
   modules: {
   }

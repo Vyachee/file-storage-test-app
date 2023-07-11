@@ -26,6 +26,8 @@ class FilesController extends Controller
             $files->where('title', 'ilike', '%' . $data['query'] . '%');
         }
 
+        $files->orderBy('id', 'desc');
+
         $files = $files->paginate(50);
 
         return response(FileResource::collection($files)->response()->getData(true), 200);

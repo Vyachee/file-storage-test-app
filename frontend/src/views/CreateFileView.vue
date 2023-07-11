@@ -2,9 +2,9 @@
   <div class="create-file">
       <div class="window">
           <h2>Загрузка нового файла</h2>
-          <InputText placeholder="Введите название файла" @change="onChange"/>
+          <InputText placeholder="Введите название файла" @inputText="onChange"/>
           <FileInput @file-loaded="onFileLoaded"/>
-          <div class="confirm">Загрузить</div>
+          <div class="confirm" @click="confirm">Загрузить</div>
       </div>
   </div>
 </template>
@@ -14,19 +14,29 @@
 import InputText from "@/components/InputText.vue";
 import {ref} from "vue";
 import FileInput from "@/components/FileInput.vue";
+import store from "@/store";
 
 const text = ref(null);
 const file = ref(null);
 
 const onChange = (e: any) => {
     text.value = e;
-    console.log(e)
+    console.log(text.value)
 }
 
 const onFileLoaded = (e: any) => {
     file.value = e;
     console.log('file:')
     console.log(e)
+}
+
+const confirm = () => {
+    const payload = {
+        title: text.value,
+        attachment: file.value
+    }
+
+    store.dispatch('createFile', payload)
 }
 </script>
 

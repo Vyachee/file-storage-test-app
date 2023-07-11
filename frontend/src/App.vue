@@ -11,7 +11,9 @@
                 placeholder="Введите название файла для поиска"
                 v-if="router.currentRoute.value.name === 'main'"
             >
-            <span>{{store.state.files.length}}/{{store.state.meta.total}}</span>
+            <span v-if="router.currentRoute.value.name === 'main'">
+                Отображено {{store.state.files.length}} из {{store.state.meta.total}} файлов
+            </span>
         </nav>
         <div class="content">
             <router-view/>
@@ -94,6 +96,9 @@ onMounted(async () => {
             width: 300px;
             margin-left: 20px;
             padding: 7px;
+        }
+        span {
+            color: #fff;
         }
 
         a {
