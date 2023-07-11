@@ -2,14 +2,14 @@ import { createStore } from 'vuex'
 import api from "@/api";
 
 // Нужно было это в модули всё разнести по-хорошему, но тут не так уж и много
-export default createStore({
+export default createStore<any>({
   state: {
       files: [],
       meta: [],
       currentPage: 'main',
       query: null,
       showConfirm: false,
-      confirmCallback: null
+      confirmCallback: null,
   },
   getters: {
 
@@ -39,17 +39,25 @@ export default createStore({
           // @ts-ignore
           context.state.confirmCallback?.()
       },
-      async fetchFiles(context, payload) {
+      async fetchFiles(context, page: number) {
 
           const params: {query?: string; page?: number} = {};
           if(context.state.query) {
               params.query = context.state.query;
           }
+          if(page) {
+              params.page = page;
+          }
           const {data: {
               data, meta
           }} = await api.get('files',{params});
-          context.commit('SET_FILES', data)
           context.commit('SET_META', meta)
+          if(page) {
+
+              context.commit('SET_FILES', [...context.state.files, ...data])
+          } else {
+              context.commit('SET_FILES', data)
+          }
       },
       async deleteFile(context, payload) {
           const {data: {

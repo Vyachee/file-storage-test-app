@@ -2,14 +2,14 @@
     <div class="container">
         <ConfirmModal v-if="store.state.showConfirm"/>
         <nav>
-            <router-link to="/" @click="store.commit('SET_PAGE', 'main')">Главная</router-link>
-            <router-link to="/create"  @click="store.commit('SET_PAGE', 'create')">Загрузить файл</router-link>
+            <router-link to="/">Главная</router-link>
+            <router-link to="/create">Загрузить файл</router-link>
             <input
                 type="text"
                 class="search"
                 v-model="query"
                 placeholder="Введите название файла для поиска"
-                v-if="store.state.currentPage === 'main'"
+                v-if="router.currentRoute.value.name === 'main'"
             >
         </nav>
         <div class="content">
@@ -62,6 +62,9 @@ onMounted(async () => {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
 * {
@@ -106,8 +109,8 @@ onMounted(async () => {
 
     .content {
         flex: 1;
-        overflow-y: scroll;
         height: 100%;
+        background-color: #454545;
     }
 }
 
