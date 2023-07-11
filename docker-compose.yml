@@ -74,6 +74,15 @@ services:
                 - 'http://localhost:9000/minio/health/live'
             retries: 3
             timeout: 5s
+    web:
+        build:
+            context: frontend
+            dockerfile: Dockerfile
+        ports:
+            - 8080:8080
+        volumes:
+            - ./frontend:/project
+
     createbuckets:
         image: minio/mc
         depends_on:
