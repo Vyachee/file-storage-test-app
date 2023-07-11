@@ -86,7 +86,8 @@ export default createStore<any>({
 
           const formData = new FormData();
           formData.append('attachment', payload.attachment)
-          formData.append('title', payload.title)
+          if(payload.title)
+            formData.append('title', payload.title)
 
           try {
               const {data: {
@@ -115,7 +116,8 @@ export default createStore<any>({
 
           const formData = new FormData();
           formData.append('attachment', payload.attachment)
-          formData.append('title', payload.title)
+          if(payload.title)
+              formData.append('title', payload.title)
 
           try {
               const {data: {
