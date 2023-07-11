@@ -25,7 +25,7 @@ import router from "@/router";
 import {RouteLocationRaw} from "vue-router";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 
-const query = ref(null);
+const query = ref<string | null>(null);
 
 let debounce = null;
 watch(query, () => {
@@ -44,8 +44,14 @@ watch(query, () => {
     }, 300)
 })
 
-onMounted(() => {
-    store.dispatch('fetchFiles')
+onMounted(async () => {
+    await router.isReady()
+    const q = router.currentRoute.value.query.query?.toString()
+    if(q) {
+        query.value = q;
+        store.commit('SET_QUERY', q)
+    }
+    await store.dispatch('fetchFiles')
 })
 
 </script>
