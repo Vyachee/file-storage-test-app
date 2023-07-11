@@ -11,6 +11,7 @@
                 placeholder="Введите название файла для поиска"
                 v-if="router.currentRoute.value.name === 'main'"
             >
+            <span>{{store.state.files.length}}/{{store.state.meta.total}}</span>
         </nav>
         <div class="content">
             <router-view/>
@@ -27,9 +28,9 @@ import ConfirmModal from "@/components/ConfirmModal.vue";
 
 const query = ref<string | null>(null);
 
-let debounce = null;
+let debounce: any = null;
 watch(query, () => {
-    debounce = null;
+    clearTimeout(debounce);
     debounce = setTimeout(() => {
         const routerParams: RouteLocationRaw = {
             path: '/'

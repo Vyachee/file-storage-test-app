@@ -16,18 +16,20 @@ const files = computed(() => {
 })
 
 const container = ref<HTMLElement | null>(null)
+let debounce: any = null;
 onMounted(() => {
     useInfiniteScroll(
         container,
-        () => {
-            console.log('test')
-            console.log(store.state.meta)
-            const nextPage = store.state.meta.current_page + 1
-            if(nextPage <= store.state.meta.last_page) {
-                store.dispatch('fetchFiles', nextPage)
-            }
+        async () => {
+            clearTimeout(debounce);
+            debounce = setTimeout(async () => {
+                const nextPage = store.state.meta.current_page + 1
+                if(!(nextPage > store.state.meta.last_page)) {
+                    await store.dispatch('fetchFiles', nextPage)
+                }
+            }, 500)
         },
-        { distance: 1000 }
+        {direction: "top"}
     )
 })
 </script>
