@@ -20,7 +20,7 @@ class FileResource extends JsonResource
             'title' => $this->title,
             'size' => $this->size,
             'extension' => $this->extension,
-            'preview_path' => $this->preview_path ? Storage::disk('s3')->url($this->preview_path) : null,
+            'previewPath' => $this->preview_path ? Storage::disk('s3')->url($this->preview_path) : null,
             'path' => Storage::disk('s3')->url($this->path),
         ];
     }
