@@ -6,7 +6,7 @@
              @dragleave="toggleClass"
              @drop="toggleClass"
         >
-            <input type="file" @change="onFileInput">
+            <input type="file" @change="onFileInput" @progress="onProgress">
             {{text}}
         </div>
     </div>
@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import {computed, ref} from "vue";
+import store from "@/store";
 const dragging = ref(false)
 const file = ref<any>(null);
 const emit = defineEmits(['fileLoaded'])
@@ -21,6 +22,8 @@ const onFileInput = (e: any) => {
     file.value = e.target.files[0];
     emit('fileLoaded', file.value);
 }
+
+
 const toggleClass = () => {
     dragging.value = !dragging.value
 }
@@ -59,7 +62,6 @@ const text = computed(() => {
         position: absolute;
         top: 0;
         left: 0;
-
     }
 }
 </style>

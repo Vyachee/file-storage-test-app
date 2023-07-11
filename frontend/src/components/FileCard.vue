@@ -18,12 +18,12 @@
 import {FileItem} from "@/types/FileItem";
 import {computed} from "vue";
 import store from "@/store";
+import router from "@/router";
+
 
 const onEdit = () => {
-    store.commit('SET_SHOW_CONFIRM', true)
-    store.commit('SET_CONFIRM_CALLBACK', () => {
-        alert('to be implemented')
-    })
+
+    router.push({path: '/create', query: {id: props.fileItem.id}})
 }
 
 const onDelete = () => {
