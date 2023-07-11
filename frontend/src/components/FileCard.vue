@@ -1,7 +1,7 @@
 <template>
     <div class="file-card" v-if="fileItem">
         <div class="file-card-title">{{fileItem.title}}.{{fileItem.extension}} ({{size}} МБ)</div>
-        <div class="file-card-preview">
+        <div class="file-card-preview" v-if="fileItem.previewPath">
             <img :src="fileItem.previewPath" alt="">
         </div>
         <div class="file-card-actions">
@@ -22,12 +22,15 @@ import store from "@/store";
 const onEdit = () => {
     store.commit('SET_SHOW_CONFIRM', true)
     store.commit('SET_CONFIRM_CALLBACK', () => {
-        alert('test')
+        alert('to be implemented')
     })
 }
 
 const onDelete = () => {
-
+    store.commit('SET_SHOW_CONFIRM', true)
+    store.commit('SET_CONFIRM_CALLBACK', () => {
+        store.dispatch('deleteFile', props.fileItem.id)
+    })
 }
 
 const props = defineProps({

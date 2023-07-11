@@ -48,6 +48,21 @@ export default createStore({
           );
           context.commit('SET_FILES', data)
           context.commit('SET_META', meta)
+      },
+      async deleteFile(context, payload) {
+          const {data: {
+              success,
+              message
+          }} = await api.delete(
+              `files/${payload}`
+          );
+
+          if(success) {
+              context.commit('SET_SHOW_CONFIRM', false);
+              await context.dispatch("fetchFiles")
+          } else {
+              alert(message)
+          }
       }
   },
   modules: {
