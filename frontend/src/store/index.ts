@@ -40,12 +40,14 @@ export default createStore({
           context.state.confirmCallback?.()
       },
       async fetchFiles(context, payload) {
+
+          const params: {query?: string; page?: number} = {};
+          if(context.state.query) {
+              params.query = context.state.query;
+          }
           const {data: {
               data, meta
-          }} = await api.get(
-              'files',
-              {params: payload}
-          );
+          }} = await api.get('files',{params});
           context.commit('SET_FILES', data)
           context.commit('SET_META', meta)
       },

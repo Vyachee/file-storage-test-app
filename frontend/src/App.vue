@@ -39,9 +39,8 @@ watch(query, () => {
         }
 
         router.push(routerParams)
-        store.dispatch('fetchFiles', {
-            query: query.value
-        })
+        store.commit('SET_QUERY', query.value)
+        store.dispatch('fetchFiles')
     }, 300)
 })
 
